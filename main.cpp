@@ -20,9 +20,9 @@ int main() {
     // Itera sobre os arquivos no diretório
     for (const auto &entry : fs::directory_iterator(directory)) {
 
-        Instance test(entry.path());
+        Instance test(entry.path(), true);
         std::cout << entry.path() << "\n";
-        std::cout << test.costMatrix[0][1];
+        std::cout << test.costMatrix[499][499];
         exit(0);
 
     }
