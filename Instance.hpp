@@ -10,7 +10,6 @@ public:
     Instance(const std::string& directory, bool isFromOrLib);
     int vertices;
     int medians;
-    int edges;
     std::vector<std::vector<int>> costMatrix;
     std::vector<std::vector<int>> prev;
 

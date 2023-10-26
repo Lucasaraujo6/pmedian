@@ -13,7 +13,18 @@ Instance::Instance(const std::string& directory, bool isFromOrLib) {
         return;
     }
 
-    entryFile >> vertices >> edges >> medians;
+    if (!isFromOrLib){
+        for (int i = 0; i < 2; ++i) {
+            entryFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+        entryFile >> vertices >> medians;
+        for (int i = 0; i < 2; ++i) {
+            entryFile.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    } else {
+        int edges;
+        entryFile >> vertices >> edges >> medians;
+    }
 
     costMatrix.resize(vertices, std::vector<int>(vertices, std::numeric_limits<int>::max()));
     prev.resize(vertices, std::vector<int>(vertices, -1));
@@ -21,6 +32,7 @@ Instance::Instance(const std::string& directory, bool isFromOrLib) {
     // Lê e armazena as linhas subsequentes em uma matriz (vetor de strings)
     int vertice, edge, cost;
     while (entryFile >> vertice >> edge >> cost) {
+        std::cout << cost << "cost";
         costMatrix [vertice - 1][edge - 1] = cost;
         prev[vertice - 1][edge - 1] = vertice - 1;
         if(isFromOrLib){
@@ -28,7 +40,6 @@ Instance::Instance(const std::string& directory, bool isFromOrLib) {
             prev[edge - 1][vertice - 1] = edge - 1;
         }
     }
-
 
     floydWarshall(isFromOrLib);
     // Feche o arquivo após a leitura
@@ -50,8 +61,10 @@ void Instance::floydWarshall(bool isFromOrLib ) {
                 if (costMatrix[i][k] != std::numeric_limits<int>::max() &&
                     costMatrix[k][j] != std::numeric_limits<int>::max() &&
                     costMatrix[i][k] + costMatrix[k][j] < costMatrix[i][j]) {
+
                     costMatrix[i][j] = costMatrix[i][k] + costMatrix[k][j];
                     prev[i][j] = prev[k][j]; // Atualiza o predecessor
+
                 }
             }
         }

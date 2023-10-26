@@ -7,7 +7,9 @@ namespace fs = std::filesystem;
 int main() {
     // Diretório que você deseja listar os arquivos
     // std::string diretorio = "/home/prod/Documentos/Lucas/2 sem 2023/Heurísticas e Metaheurísticas/Trabalho em grupo/pmedian/instances/optimals";
+
     std::string origin = "orlib";
+    origin = "sobolev_institute/pm_chess";
 
     std::string directory =
             std::string(std::filesystem::current_path().parent_path())
@@ -20,9 +22,9 @@ int main() {
     // Itera sobre os arquivos no diretório
     for (const auto &entry : fs::directory_iterator(directory)) {
 
-        Instance test(entry.path(), true);
+        Instance test(entry.path(), false);
         std::cout << entry.path() << "\n";
-        std::cout << test.costMatrix[499][499];
+        //std::cout << test.costMatrix[0][0];
         exit(0);
 
     }
